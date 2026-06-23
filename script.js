@@ -15,6 +15,8 @@ let gameActive = false;
 let currentSize = 4;
 let lockBoard = false;
 let pendingVictory = false;
+let hintUsed = false;
+let hintActive = false;
 let soundEnabled = localStorage.getItem('circotecaSound') === 'true';
 
 // Quando a página abre, configuramos botões, sons e eventos dos modais.
@@ -58,6 +60,8 @@ function startGame(size) {
     gameActive = true;
     lockBoard = false;
     pendingVictory = false;
+    hintUsed = false;
+    hintActive = false;
     currentSize = size;
 
     const totalCards = size * size;
@@ -96,6 +100,33 @@ function startGame(size) {
 function restartGame() {
     startGame(currentSize);
 }
+function showHint() {
+    if (!gameActive) return;
+    if (hintUsed) return;
+    if (hintActive) return;
+    if (lockBoard) return;
+
+    hintUsed = true;
+    hintActive = true;
+    lockBoard = true;
+
+    flippedCards.forEach(card => {
+        card.flipped = false;
+    });
+
+    flippedCards = [];
+
+    renderBoard();
+    updateUI();
+    playSound('hint');
+
+    setTimeout(() => {
+        hintActive = false;
+        lockBoard = false;
+        renderBoard();
+        updateUI();
+    }, 950);
+}
 
 function renderBoard() {
     const board = document.getElementById('gameBoard');
@@ -106,13 +137,11 @@ function renderBoard() {
 
     cards.forEach((card) => {
         const button = document.createElement('button');
-        const isVisible = card.flipped || card.matched;
-
+        const isVisible = card.flipped || card.matched || hintActive;
         button.type = 'button';
         button.className = `memory-card ${card.flipped ? 'flipped' : ''} ${card.matched ? 'matched' : ''}`;
         button.dataset.cardId = String(card.id);
-        button.disabled = card.matched;
-        button.setAttribute('aria-label', isVisible ? `Carta aberta: ${card.titulo}` : 'Carta fechada da Circoteca');
+        button.disabled = card.matched || hintActive;        button.setAttribute('aria-label', isVisible ? `Carta aberta: ${card.titulo}` : 'Carta fechada da Circoteca');
         button.onclick = () => flipCard(card.id);
 
         button.innerHTML = isVisible
@@ -315,8 +344,22 @@ function updateUI() {
     document.getElementById('moves').textContent = String(moves);
     document.getElementById('score').textContent = String(score);
     document.getElementById('memoriesCount').textContent = `${unlockedMemories.length}/${totalPairs}`;
-}
 
+    updateHintButton();
+}
+function updateHintButton() {
+    const hintButton = document.getElementById('hintButton');
+
+    if (!hintButton) return;
+
+    hintButton.disabled = !gameActive || hintUsed || hintActive || lockBoard;
+
+    if (hintUsed) {
+        hintButton.innerHTML = '<i class="bi bi-eye-slash"></i> Dica usada';
+    } else {
+        hintButton.innerHTML = '<i class="bi bi-eye"></i> Dica 1x';
+    }
+}
 function showVictoryModal() {
     const modalElement = document.getElementById('victoryModal');
 
@@ -347,12 +390,13 @@ function playSound(type = 'flip') {
 
     if (!AudioContextClass) return;
 
-    const soundMap = {
-        flip: { frequency: 520, duration: 0.08 },
-        match: { frequency: 760, duration: 0.13 },
-        wrong: { frequency: 180, duration: 0.18 },
-        victory: { frequency: 920, duration: 0.28 }
-    };
+   const soundMap = {
+    flip: { frequency: 520, duration: 0.08 },
+    match: { frequency: 760, duration: 0.13 },
+    wrong: { frequency: 180, duration: 0.18 },
+    hint: { frequency: 650, duration: 0.16 },
+    victory: { frequency: 920, duration: 0.28 }
+};
 
     const config = soundMap[type] || soundMap.flip;
     const audioContext = new AudioContextClass();
