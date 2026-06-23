@@ -1,0 +1,171 @@
+/*
+    Visual do projeto Circoteca — Memória Viva do Circo.
+    A ideia é misturar jogo, acervo, cultura popular e picadeiro.
+*/
+
+:root {
+    --circus-red: #b91c1c;
+    --circus-gold: #f59e0b;
+    --circus-blue: #1e40af;
+    --dark: #111827;
+    --paper: #fff8ec;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(245, 158, 11, 0.35), transparent 30%),
+        linear-gradient(135deg, #7f1d1d 0%, #1e3a8a 100%);
+}
+
+.hero {
+    padding-top: 10px;
+}
+
+.project-badge {
+    display: inline-block;
+    padding: 6px 18px;
+    border-radius: 999px;
+    background: var(--circus-gold);
+    color: #2b1600;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+.game-card {
+    background: rgba(255, 248, 236, 0.97);
+    border: 2px solid rgba(245, 158, 11, 0.3);
+    border-radius: 22px;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.2);
+}
+
+.stat-value {
+    display: block;
+    margin-top: 4px;
+    font-size: 1.45rem;
+    font-weight: 900;
+    color: var(--dark);
+}
+
+.empty-board {
+    color: #4b5563;
+}
+
+.memory-board {
+    display: grid;
+    gap: 12px;
+}
+
+.memory-card {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    border: 0;
+    border-radius: 18px;
+    background:
+        linear-gradient(135deg, rgba(185, 28, 28, 0.95), rgba(30, 64, 175, 0.95));
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(1.45rem, 4vw, 2.75rem);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22);
+    transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+    user-select: none;
+}
+
+.memory-card:hover:not(.flipped):not(.matched) {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28);
+}
+
+.memory-card.flipped {
+    background: #ffffff;
+    color: var(--dark);
+    transform: scale(1.02);
+    outline: 4px solid rgba(245, 158, 11, 0.45);
+}
+
+.memory-card.matched {
+    background: linear-gradient(135deg, #15803d, #22c55e);
+    color: #ffffff;
+    cursor: default;
+    outline: none;
+}
+
+.memory-card:disabled {
+    cursor: default;
+}
+
+.card-content {
+    line-height: 1;
+}
+
+.match-animation {
+    animation: pulse-match 0.35s ease;
+}
+
+@keyframes pulse-match {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.13); }
+    100% { transform: scale(1); }
+}
+
+.archive-list {
+    display: grid;
+    gap: 10px;
+}
+
+.archive-item {
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: #ffffff;
+    border: 1px solid rgba(17, 24, 39, 0.08);
+}
+
+.archive-item strong {
+    display: block;
+    color: var(--dark);
+}
+
+.archive-item span {
+    font-size: 0.84rem;
+    color: #6b7280;
+}
+
+.modal-circoteca {
+    background: linear-gradient(135deg, var(--circus-red), var(--circus-blue));
+    color: #fff;
+}
+
+.memory-icon {
+    font-size: 4rem;
+}
+
+.category-pill {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: rgba(245, 158, 11, 0.18);
+    color: #92400e;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 576px) {
+    .game-card {
+        border-radius: 16px;
+    }
+
+    .memory-board {
+        gap: 8px;
+    }
+
+    .memory-card {
+        border-radius: 12px;
+    }
+}
