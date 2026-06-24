@@ -1,26 +1,41 @@
 # Circoteca — Memória Viva do Circo
 
-Jogo da memória educativo inspirado no projeto Circoteca, uma biblioteca/acervo vivo voltado ao resgate da memória do circo mineiro e brasileiro.
+Jogo da memória educativo com identidade visual inspirada em acervo vivo, ilustração editorial e memória do circo mineiro e brasileiro.
 
-## Objetivo do jogo
+## O que mudou nesta versão
 
-O jogador precisa encontrar pares de cartas. Cada par encontrado desbloqueia uma memória relacionada ao universo do circo.
+- As cartas deixaram de usar emojis e agora usam imagens autorais.
+- Foi criada a pasta `assets/img` para organizar todos os arquivos visuais.
+- O arquivo `cartas-circoteca.js` passou a guardar o caminho de cada imagem.
+- O JavaScript agora renderiza imagens no tabuleiro, no modal e no acervo desbloqueado.
+- O CSS foi redesenhado para aproximar o jogo do mockup visual.
+- O botão de dica única continua implementado.
 
-A proposta é unir jogo, educação patrimonial, cultura popular e memória circense.
+## Estrutura de pastas
 
-## Arquivos do projeto
+```txt
+circoteca-memory-game/
+├── index.html
+├── style.css
+├── script.js
+├── cartas-circoteca.js
+└── assets/
+    └── img/
+        ├── banner-circoteca-home.png
+        ├── carta-verso-circoteca.png
+        ├── card-lona-circo.png
+        ├── card-picadeiro.png
+        ├── card-palhacaria.png
+        ├── card-malabares.png
+        ├── card-perna-de-pau.png
+        ├── card-circo-itinerante.png
+        ├── card-praca-publica.png
+        └── card-familia-circense.png
+```
 
-- `index.html` — estrutura da página.
-- `style.css` — visual e responsividade.
-- `script.js` — lógica do jogo.
-- `cartas-circoteca.js` — dados educativos das cartas.
-- `melhorias_funcionais_e_nao_funcionais.md` — registro das melhorias pedidas pelo professor.
+## Como testar
 
-## Como abrir
-
-Abra o arquivo `index.html` no navegador.
-
-Também é possível rodar em localhost:
+Abra o terminal dentro da pasta do projeto e rode:
 
 ```bash
 python -m http.server 5500
@@ -32,20 +47,11 @@ Depois acesse:
 http://localhost:5500
 ```
 
-## Melhorias implementadas
+## Como atualizar no GitHub
 
-### Funcionais
-
-1. Tema educativo da Circoteca.
-2. Modal de memória desbloqueada a cada par encontrado.
-3. Acervo desbloqueado durante a partida.
-
-### Não funcionais
-
-1. Organização do código com dados separados em `cartas-circoteca.js`.
-2. Layout responsivo para diferentes telas.
-3. Melhor acessibilidade e clareza visual.
-
-## Observação importante
-
-Os textos educativos são uma primeira versão de mediação. Antes de publicar como acervo histórico definitivo, o ideal é revisar as informações com documentos, fontes, depoimentos e materiais reais da Circoteca.
+```bash
+git status
+git add .
+git commit -m "Aplica nova identidade visual e imagens da Circoteca"
+git push
+```
